@@ -1,5 +1,5 @@
 ---
-title: Esborrany de prova del CMS
+title: Esborrany de prova del CMS (editat)
 date: 2026-11-11
 summary: Notícia de prova per comprovar que els esborranys només surten a la
   vista prèvia.
