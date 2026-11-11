@@ -1,0 +1,52 @@
+---
+import { showDrafts } from '../lib/drafts';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Projecte de pràctiques. No és la web oficial dels Capgrossos de Mataró.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Practice project: never indexed. public/_headers sends the same rule as X-Robots-Tag -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <title>{title} · Capgrossos (pràctiques)</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Vés al contingut</a>
+    <p class="notice" role="note">
+      <strong>Projecte de pràctiques.</strong> Aquesta no és la web oficial de la colla. La web oficial és
+      <a href="https://capgrossos.cat/">capgrossos.cat</a>.
+    </p>
+    {showDrafts && <p class="notice notice--drafts" role="note">Vista prèvia amb esborranys. Aquí surten també les entrades que encara no s'han publicat.</p>}
+    <header>
+      <nav aria-label="Principal">
+        <a href="/">Inici</a>
+        <a href="/actualitat/">Actualitat</a>
+        <a href="/calendari/">Calendari</a>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 48rem; padding: 0 1rem; line-height: 1.5; color: #1a1a1a; }
+  .skip { position: absolute; left: -999px; }
+  .skip:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; }
+  .notice { background: #fff4d6; border: 1px solid #b8860b; padding: .5rem .75rem; }
+  .notice--drafts { background: #e8f0ff; border-color: #3a5bbf; }
+  nav { display: flex; gap: 1rem; padding: 1rem 0; }
+  img { max-width: 100%; height: auto; }
+  :focus-visible { outline: 3px solid #3a5bbf; outline-offset: 2px; }
+  .draft { font-size: .8rem; background: #3a5bbf; color: #fff; padding: 0 .4rem; border-radius: .25rem; }
+</style>

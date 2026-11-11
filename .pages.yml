@@ -1,0 +1,117 @@
+# Pages CMS configuration. Every content entry mirrors a schema in src/content.config.ts.
+# Labels are in Catalan for the editors.
+media:
+  - name: actualitat
+    label: Imatges de les notícies
+    input: src/assets/actualitat
+    # Written into the Markdown file: relative to src/content/actualitat/, as Astro's image() expects
+    output: ../../assets/actualitat
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: actualitat
+    label: Actualitat
+    type: collection
+    path: src/content/actualitat
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, draft]
+      primary: title
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Títol
+        type: string
+        required: true
+      - name: date
+        label: Data
+        type: date
+        required: true
+      - name: summary
+        label: Resum
+        type: text
+        required: true
+        description: Una o dues frases. Surt a la llista de notícies.
+      - name: image
+        label: Imatge
+        type: image
+        required: true
+        description: Sense fotos de persones. Millor horitzontal.
+        options:
+          media: actualitat
+      - name: imageAlt
+        label: Descripció de la imatge
+        type: string
+        required: true
+        description: Explica què es veu, per a qui no pot veure la imatge.
+      - name: draft
+        label: Esborrany (no es publica)
+        type: boolean
+        default: true
+        description: Mentre estigui marcat, la notícia només surt a la vista prèvia. Desmarca'l per publicar-la.
+      - name: body
+        label: Text
+        type: rich-text
+        options:
+          format: markdown
+          media: actualitat
+
+  - name: calendari
+    label: Calendari
+    type: collection
+    path: src/content/calendari
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, start, type, draft]
+      primary: title
+      default:
+        sort: start
+        order: desc
+    fields:
+      - name: title
+        label: Títol
+        type: string
+        required: true
+      - name: start
+        label: Dia i hora
+        type: date
+        required: true
+        options:
+          time: true
+          format: yyyy-MM-dd'T'HH:mm
+      - name: type
+        label: Tipus
+        type: select
+        required: true
+        options:
+          values:
+            - name: assaig
+              label: Assaig
+            - name: actuacio
+              label: Actuació
+            - name: diada
+              label: Diada
+            - name: altres
+              label: Altres
+      - name: location
+        label: Lloc
+        type: string
+        required: true
+      - name: summary
+        label: Resum
+        type: text
+      - name: draft
+        label: Esborrany (no es publica)
+        type: boolean
+        default: true
+      - name: body
+        label: Text
+        type: rich-text
+        options:
+          format: markdown
+          media: false

@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { formatDate, isVisible } from '../../lib/drafts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('actualitat', isVisible);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.summary}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p>{formatDate(post.data.date)} {post.data.draft && <span class="draft">Esborrany</span>}</p>
+    <Image src={post.data.image} alt={post.data.imageAlt} widths={[480, 800]} sizes="(min-width: 800px) 768px, 92vw" />
+    <Content />
+  </article>
+</Base>

@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatDate, isVisible } from '../../lib/drafts';
+
+const posts = (await getCollection('actualitat', isVisible)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Actualitat">
+  <h1>Actualitat</h1>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/actualitat/${post.id}/`}>{post.data.title}</a> ({formatDate(post.data.date)})
+          {post.data.draft && <span class="draft">Esborrany</span>}
+        </li>
+      ))
+    }
+  </ul>
+</Base>

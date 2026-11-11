@@ -1,0 +1,3 @@
+# Practice project. Pages stay crawlable so search engines can read the noindex rule.
+User-agent: *
+Allow: /

@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatLocal, isVisible, todayInMataro } from '../lib/drafts';
+
+const types = { assaig: 'Assaig', actuacio: 'Actuació', diada: 'Diada', altres: 'Altres' };
+const today = todayInMataro();
+const events = (await getCollection('calendari', isVisible)).sort((a, b) => a.data.start.localeCompare(b.data.start));
+// An event stays "upcoming" for its whole day; the daily rebuild moves it to "past"
+const upcoming = events.filter((e) => e.data.start.slice(0, 10) >= today);
+const past = events.filter((e) => e.data.start.slice(0, 10) < today).reverse();
+---
+
+<Base title="Calendari">
+  <h1>Calendari</h1>
+  <h2>Properes dates</h2>
+  <ul>
+    {upcoming.map((e) => <li><strong>{types[e.data.type]}:</strong> {e.data.title}, {formatLocal(e.data.start)}, {e.data.location} {e.data.draft && <span class="draft">Esborrany</span>}</li>)}
+  </ul>
+  <h2>Dates passades</h2>
+  <ul>
+    {past.map((e) => <li><strong>{types[e.data.type]}:</strong> {e.data.title}, {formatLocal(e.data.start)}, {e.data.location}</li>)}
+  </ul>
+</Base>
