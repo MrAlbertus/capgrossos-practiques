@@ -1,0 +1,10 @@
+---
+// Without a 404.html, Cloudflare Pages answers unknown paths with the home page and a 200,
+// so a hidden draft's address would look like it exists.
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Pàgina no trobada">
+  <h1>No hem trobat aquesta pàgina</h1>
+  <p>Potser l'adreça és incorrecta o la pàgina ja no existeix. Torna a l'<a href="/">inici</a>.</p>
+</Base>
