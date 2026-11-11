@@ -15,5 +15,13 @@ Prueba del 11 de noviembre de 2026 para confirmar la decisión provisional de [C
 | Si el texto se guarda en Markdown | Sí, debajo del frontmatter. | Probado |
 | Si el borrador está marcado por defecto | Sí, y la web pública no lo enseña. | Probado en un build local |
 | Historial | El editor tiene un botón de historial junto a Guardar. | Visto. Falta probar si deja recuperar una versión |
-| Vista previa con el segundo proyecto de Cloudflare | | Pendiente |
-| `noindex` en los dos proyectos | | Pendiente |
+| Si Cloudflare deja conectar el mismo repositorio a dos proyectos | Sí: `capgrossos-practiques` (público) y `capgrossos-esborranys` (con `SHOW_DRAFTS=true`), los dos con la rama `main`. Cada commit lanza dos construcciones, que tardaron entre uno y dos minutos. | Probado |
+| Vista previa con el segundo proyecto | La noticia en borrador sale en `capgrossos-esborranys.pages.dev` con la etiqueta "Esborrany" y el aviso de vista previa, y en el público da 404. | Probado |
+| `noindex` en los dos proyectos | Los dos envían `X-Robots-Tag: noindex, nofollow`. | Probado |
+| Direcciones que no existen | Sin `404.html`, Cloudflare Pages devolvía la portada con un 200 en cualquier dirección, así que el borrador oculto parecía existir. Con `src/pages/404.astro` ya da 404. | Probado |
+
+## Cuentas que intervienen
+
+- GitHub: repositorio `MrAlbertus/capgrossos-practiques`, con las apps de Pages CMS y de Cloudflare instaladas solo en él.
+- Cloudflare: cuenta personal de Albert. Es una pieza que depende de una sola persona y habrá que anotarla en la nota de recuperación.
+- La app de Cloudflare pide lectura y escritura de administración, checks, código, despliegues y pull requests en el repositorio.
